@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: ponto-facil
+    env: python
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "gunicorn app:app"
+    plan: free
+    envVars:
+      - key: DATABASE_URL
+        value: postgresql://banco_5s9f_user:1rhZCg0jp9JIrKdnf1EAoUi9pDewOUbn@dpg-d4145eeuk2gs73852f20-a.oregon-postgres.render.com/banco_5s9f
