@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session
+from datetime import datetime, timedelta, timezone
 import psycopg2
 import os
 from urllib.parse import urlparse
@@ -121,7 +122,8 @@ def pg_mrc_ponto():
         return redirect(url_for("pg_login"))
 
     nome, jornada = usuario
-    agora = datetime.now()
+    fuso_brasilia = timezone(timedelta(hours=-3))
+    agora = datetime.now(fuso_brasilia)
 
     cursor.execute("SELECT * FROM pontos WHERE matricula = %s AND data = %s ORDER BY id", (matricula, agora.date()))
     pontos_hoje = cursor.fetchall()
@@ -380,4 +382,5 @@ def pg_suporte():
 # ---------------------- MAIN ---------------------- #
 if __name__ == "__main__":
     from os import environ
+
     app.run(host="0.0.0.0", port=int(environ.get("PORT", 5000)))
